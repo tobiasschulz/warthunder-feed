@@ -20,14 +20,15 @@ function formatdate($threadid) {
 
 foreach ($lines as $line) {
 	$line = str_replace("'", "\"", $line);
-	if (preg_match('/<a itemprop="url" id="(?:[^"]+)" href="([^"]+)" title="([^"]+)"/', $line, $groups)) {
+	if (preg_match('/<a itemprop="url" id="(?:[^"]+)" href="([^"]+)" title="([^"]+?)\s*- started\s*([^"]+?)\s*"/', $line, $groups)) {
 		$url = $groups[1];
 		$title = $groups[2];
+		$formatted_date = $groups[3];
 		if (preg_match('/\/topic\/([0-9]+)/', $url, $groups2)) {
 			$threadid = $groups2[1];
 			$biggestThreadId = $threadid > $biggestThreadId ? $threadid : $biggestThreadId;
 			$pubDate = formatdate($threadid);
-			$threads[] = array("url" => $url, "title" => $title, "threadid" => $threadid, "pubDate" => $pubDate);
+			$threads[] = array("url" => $url, "title" => $title, "threadid" => $threadid, "pubDate" => $pubDate, "formatted_date" => $formatted_date);
 		}
 	}
 }
@@ -53,12 +54,12 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
 foreach ($threads as $thread) {
 	print "
   <entry>
+    <updated>$thread[pubDate]</updated>
+    <published>$thread[pubDate]</published>
     <title>$thread[title]</title>
     <link href='$thread[url]' />
     <id>$thread[url]</id>
     <summary>$thread[title]</summary>
-    <updated>$thread[pubDate]</updated>
-    <published>$thread[pubDate]</published>
   </entry>
 ";
 }
