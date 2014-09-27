@@ -52,7 +52,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
 ';
 
 foreach ($threads as $thread) {
-	$url = htmlentities($thread[url]);
+	$url = htmlentities($thread["url"]);
 	print "
   <entry>
     <updated>$thread[pubDate]</updated>
