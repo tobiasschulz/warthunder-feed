@@ -1,0 +1,4 @@
+warthunder-feed
+===============
+
+RSS feeds
