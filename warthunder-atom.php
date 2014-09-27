@@ -8,7 +8,7 @@ function file_get_contents_utf8($fn) {
 
 function get_self_link() {
 	$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
-	$self_link = $protocol.$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI];
+	$self_link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 	return $self_link;
 }
 
