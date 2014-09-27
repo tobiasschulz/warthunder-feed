@@ -32,6 +32,7 @@ foreach ($lines as $line) {
 	if (preg_match('/<a itemprop="url" id="(?:[^"]+)" href="([^"]+)" title="([^"]+?)\s*- started\s*([^"]+?)\s*"/', $line, $groups)) {
 		$url = $groups[1];
 		$title = $groups[2];
+		$title = preg_replace("/&#?[a-z0-9]+;/i", "", $title);
 		$formatted_date = $groups[3];
 		if (preg_match('/\/topic\/([0-9]+)/', $url, $groups2)) {
 			$threadid = $groups2[1];
