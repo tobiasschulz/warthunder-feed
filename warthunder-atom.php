@@ -31,6 +31,9 @@ foreach ($lines as $line) {
 	$line = str_replace("'", "\"", $line);
 	if (preg_match('/<a itemprop="url" id="(?:[^"]+)" href="([^"]+)" title="([^"]+?)\s*- started\s*([^"]+?)\s*"/', $line, $groups)) {
 		$url = $groups[1];
+		if (preg_match('/^(.*)\/topic\/(.*)\/(.*)$/', $url, $groups2)) {
+			$url = $groups2[1] . "/topic/" . urlencode($groups2[2]) . "/" . urlencode($groups2[3]);
+		}
 		$title = $groups[2];
 		$title = preg_replace("/&#?[a-z0-9]+;/i", "", $title);
 		$formatted_date = $groups[3];
@@ -63,7 +66,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
 ';
 
 foreach ($threads as $thread) {
-	$url = htmlentities($thread["url"]);
+	$url = $thread["url"];
 	print "
   <entry>
     <updated>$thread[pubDate]</updated>
