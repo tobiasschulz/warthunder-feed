@@ -7,6 +7,11 @@ $html = file_get_contents($URL);
 $lines = explode("\n", $html);
 
 $threads = array();
+$biggestThreadId = 0;
+
+function formatdate($threadid) {
+	return date(DATE_ATOM, $threadid * 475 + 1325376000);
+}
 
 foreach ($lines as $line) {
 	$line = str_replace("'", "\"", $line);
@@ -15,7 +20,8 @@ foreach ($lines as $line) {
 		$title = $groups[2];
 		if (preg_match('/\/topic\/([0-9]+)/', $url, $groups2)) {
 			$threadid = $groups2[1];
-			$pubDate = date(DATE_ATOM, $threadid * 500 + 1325376000);
+			$biggestThreadId = $threadid > $biggestThreadId ? $threadid : $biggestThreadId;
+			$pubDate = formatdate($threadid);
 			$threads[] = array("url" => $url, "title" => $title, "threadid" => $threadid, "pubDate" => $pubDate);
 		}
 	}
@@ -27,12 +33,16 @@ function compare_by_threadid($a, $b) {
 
 uasort($threads, 'compare_by_threadid');
 
+$updated = formatdate($biggestThreadId);
+
 echo '<?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>War Thunder News</title>
   <author><name>War Thunder</name></author>
   <link type="text/html" href="'.$URL.'" />
-  <description></description>
+  <description>War Thunder News</description>
+  <id>War Thunder News</id>
+  <updated>'.$updated.'</updated>
   <icon>http://forum.warthunder.com/favicon.ico</icon>
 ';
 
