@@ -21,6 +21,12 @@ foreach ($lines as $line) {
 	}
 }
 
+function compare_by_threadid($a, $b) {
+	return $b['threadid'] - $a['threadid'];
+}
+
+uasort($threads, 'compare_by_threadid');
+
 echo '<?xml version="1.0" encoding="UTF-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>War Thunder News</title>
