@@ -40,8 +40,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
   <title>War Thunder News</title>
   <author><name>War Thunder</name></author>
   <link type="text/html" href="'.$URL.'" />
-  <description>War Thunder News</description>
-  <id>War Thunder News</id>
+  <id>'.$URL.'</id>
   <updated>'.$updated.'</updated>
   <icon>http://forum.warthunder.com/favicon.ico</icon>
 ';
