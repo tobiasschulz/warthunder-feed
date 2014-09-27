@@ -52,13 +52,14 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
 ';
 
 foreach ($threads as $thread) {
+	$url = htmlentities($thread[url]);
 	print "
   <entry>
     <updated>$thread[pubDate]</updated>
     <published>$thread[pubDate]</published>
     <title>$thread[title] ($thread[formatted_date])</title>
-    <link href='$thread[url]' />
-    <id>$thread[url]</id>
+    <link href='$url' />
+    <id>$url</id>
     <summary>$thread[title]</summary>
   </entry>
 ";
