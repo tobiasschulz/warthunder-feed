@@ -65,6 +65,9 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
   <link href="'.$escaped_self_link.'" rel="self" type="application/atom+xml" />
 ';
 
+# nur die ersten 10 eintraege
+$threads = array_slice($threads, 0, 10);
+
 foreach ($threads as $thread) {
 	$url = $thread["url"];
 	print "
