@@ -1,14 +1,9 @@
 <?php
-header ("Content-type: application/atom+xml; charset=UTF-8");
-
-function file_get_contents_utf8($fn) {
-	$content = file_get_contents($fn);
-	return mb_convert_encoding($content, 'UTF-8', mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
-}
+header ("Content-type: application/atom+xml");
 
 $URL = "http://forum.warthunder.com/index.php?/forum/26-official-project-news-read-only/";
 
-$html = file_get_contents_utf8($URL);
+$html = file_get_contents($URL);
 $lines = explode("\n", $html);
 
 $threads = array();
