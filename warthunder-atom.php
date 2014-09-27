@@ -6,6 +6,19 @@ function file_get_contents_utf8($fn) {
 	return mb_convert_encoding($content, 'UTF-8', mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
 }
 
+function get_self_link() {
+	$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === true ? 'https://' : 'http://';
+	$self_link = $protocol.$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI];
+	return $self_link;
+}
+
+function formatdate($threadid) {
+	return date(DATE_ATOM, $threadid * 475 + 1325376000);
+}
+
+$self_link = get_self_link();
+$escaped_self_link = htmlspecialchars($self_link, ENT_QUOTES, 'UTF-8');
+
 $URL = "http://forum.warthunder.com/index.php?/forum/26-official-project-news-read-only/";
 
 $html = file_get_contents_utf8($URL);
@@ -13,10 +26,6 @@ $lines = explode("\n", $html);
 
 $threads = array();
 $biggestThreadId = 0;
-
-function formatdate($threadid) {
-	return date(DATE_ATOM, $threadid * 475 + 1325376000);
-}
 
 foreach ($lines as $line) {
 	$line = str_replace("'", "\"", $line);
@@ -49,6 +58,7 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>
   <id>'.$URL.'</id>
   <updated>'.$updated.'</updated>
   <icon>http://forum.warthunder.com/favicon.ico</icon>
+  <link href="'.$escaped_self_link.'" rel="self" type="application/atom+xml" />
 ';
 
 foreach ($threads as $thread) {
